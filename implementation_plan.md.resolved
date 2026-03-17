@@ -1,0 +1,117 @@
+# Extended Hotel Booking Features & Design Overhaul
+
+Extends the existing Next.js + MongoDB hotel platform with:
+- **Availability system** — date-range booking with double-booking prevention
+- **Nodemailer email** — hotel owner notified on each new booking
+- **Role-based registration UI** — users choose "Customer" or "Hotel Owner" at sign-up
+- **Full color palette overhaul** — replace the Midnight Luxury mono-dark theme with a vibrant Ocean Sunset palette (deep teal + warm coral/gold accents)
+
+---
+
+## Proposed Changes
+
+### 1. Database Models
+
+#### [MODIFY] [Hotel.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/models/Hotel.ts)
+- Add `ownerEmail: String` field (denormalized from User for fast email lookup)
+- Add `bookedDates: [{ checkIn: Date, checkOut: Date }]` embedded array (fast availability checks)
+
+#### [MODIFY] [Booking.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/models/Booking.ts)
+- Add `guestName: String` and `guestEmail: String` fields for the notification email
+
+---
+
+### 2. Email Utility
+
+#### [NEW] [mailer.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/lib/mailer.ts)
+- Configure Nodemailer transporter using `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` env vars
+- Export `sendBookingNotification(ownerEmail, hotelName, guestName, checkIn, checkOut)` helper
+
+---
+
+### 3. API Routes
+
+#### [MODIFY] [api/bookings/route.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/api/bookings/route.ts)
+**POST (create booking):**
+1. Validate `checkIn < checkOut`  
+2. Check for overlapping bookings via `Booking.findOne` date-range query — return 409 if conflict found  
+3. Create the booking record  
+4. Push `{ checkIn, checkOut }` to the hotel's `bookedDates` array (atomic `$push`)  
+5. Call `sendBookingNotification` to email the hotel owner  
+
+**GET:** unchanged
+
+#### [NEW] [api/hotels/[id]/availability/route.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/api/hotels/[id]/availability/route.ts)
+- `GET ?checkIn=&checkOut=` — returns `{ available: boolean }` by checking for overlapping confirmed bookings
+
+#### [MODIFY] [api/hotels/route.ts](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/api/hotels/route.ts)
+- On POST (hotel creation), also save `ownerEmail` from the authenticated user's DB record
+
+---
+
+### 4. Registration Page Overhaul
+
+#### [MODIFY] [auth/register/page.tsx](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/auth/register/page.tsx)
+- Add a role toggle: two buttons "I'm a Customer" / "I'm a Hotel Owner"
+- Pass `role: 'user'` or `role: 'company'` in the registration body
+- Show a note for Hotel Owners: "You'll be able to list properties after registration"
+
+---
+
+### 5. Booking Form with Availability Check
+
+#### [MODIFY] [hotels/[slug]/book/page.tsx](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/hotels/[slug]/book/page.tsx)
+- After date selection, call the availability API before submitting
+- Show a "Checking availability…" state and a clear error if the hotel is unavailable for the chosen dates
+
+---
+
+### 6. Design Overhaul — Ocean Sunset Palette
+
+#### [MODIFY] [globals.css](file:///home/jasurbek/Desktop/ozodbek/hotel/src/app/globals.css)
+Replace Midnight Luxury with **Ocean Sunset**:
+
+| Token | Light | Dark |
+|---|---|---|
+| `--background` | `oklch(0.97 0.01 200)` — cool white-teal | `oklch(0.13 0.04 220)` — deep ocean |
+| `--foreground` | `oklch(0.18 0.05 220)` — deep navy | `oklch(0.95 0.01 200)` — soft white |
+| `--primary` | `oklch(0.6 0.22 20)` — warm coral/terracotta | same |
+| `--secondary` | `oklch(0.92 0.03 195)` | `oklch(0.20 0.04 215)` |
+| `--card` | `oklch(1 0 0)` | `oklch(0.16 0.04 220)` |
+| `--ring` | coral to match primary | same |
+
+The body gains a subtle teal-to-transparent radial gradient.  
+Primary CTAs become vivid coral-orange, links teal.
+
+---
+
+### 7. Environment Variables Required
+
+```
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@gmail.com
+SMTP_PASS=app-password
+```
+
+> [!IMPORTANT]
+> The user must create a `.env.local` with the SMTP credentials. Gmail app passwords can be generated at Google Account → Security → App Passwords.
+
+---
+
+## Verification Plan
+
+### Automated / Build
+```bash
+cd /home/jasurbek/Desktop/ozodbek/hotel
+npm run build
+```
+ Exit code 0 = TypeScript compiles with no errors.
+
+### Manual Verification Steps
+1. **Register as Hotel Owner** — go to `/auth/register`, select "Hotel Owner", sign up, confirm redirect to `/dashboard/company`.
+2. **Create a hotel** — from company dashboard add a hotel listing; confirm it appears in `/hotels`.
+3. **Book as a Customer** — log in as a different user, open a hotel, pick dates, submit the booking form.
+4. **Double-booking prevention** — attempt the exact same dates again; confirm a "Hotel not available" error is shown.
+5. **Email notification** — check the hotel owner's inbox for the notification email from Nodemailer.
+6. **Design check** — open `/` and verify the Ocean Sunset coral/teal palette renders in both light and dark mode.

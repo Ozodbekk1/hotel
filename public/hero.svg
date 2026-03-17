@@ -1,0 +1,45 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1020"/>
+      <stop offset="0.35" stop-color="#163D6B"/>
+      <stop offset="0.7" stop-color="#9C4BFF"/>
+      <stop offset="1" stop-color="#FFB86B"/>
+    </linearGradient>
+    <radialGradient id="r1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(430 240) rotate(35) scale(780 520)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="r2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1560 250) rotate(145) scale(820 560)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="noise" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0.18 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#g1)"/>
+  <rect width="1920" height="1080" fill="url(#r1)"/>
+  <rect width="1920" height="1080" fill="url(#r2)"/>
+
+  <g opacity="0.55">
+    <path d="M-40 880C220 760 380 760 640 880C900 1000 1100 1000 1360 880C1620 760 1780 760 2040 880V1180H-40V880Z" fill="#0B1020" fill-opacity="0.45"/>
+    <path d="M-40 930C220 810 380 810 640 930C900 1050 1100 1050 1360 930C1620 810 1780 810 2040 930V1180H-40V930Z" fill="#0B1020" fill-opacity="0.35"/>
+  </g>
+
+  <rect width="1920" height="1080" filter="url(#noise)" opacity="0.6"/>
+
+  <g opacity="0.85">
+    <circle cx="310" cy="165" r="2" fill="white" fill-opacity="0.8"/>
+    <circle cx="520" cy="210" r="1.5" fill="white" fill-opacity="0.7"/>
+    <circle cx="1450" cy="160" r="2" fill="white" fill-opacity="0.75"/>
+    <circle cx="1610" cy="310" r="1.5" fill="white" fill-opacity="0.65"/>
+    <circle cx="1100" cy="120" r="1.2" fill="white" fill-opacity="0.55"/>
+  </g>
+</svg>

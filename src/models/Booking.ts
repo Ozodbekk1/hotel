@@ -1,0 +1,16 @@
+import mongoose from 'mongoose';
+
+const BookingSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  hotelId: { type: mongoose.Schema.Types.ObjectId, ref: 'Hotel', required: true },
+  checkIn: { type: Date, required: true },
+  checkOut: { type: Date, required: true },
+  guests: { type: Number, required: true },
+  totalPrice: { type: Number, required: true, default: 0 },
+  status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'confirmed' },
+  guestName: { type: String, default: '' },
+  guestEmail: { type: String, default: '' },
+}, { timestamps: true });
+
+export default mongoose.models.Booking || mongoose.model('Booking', BookingSchema);
+
