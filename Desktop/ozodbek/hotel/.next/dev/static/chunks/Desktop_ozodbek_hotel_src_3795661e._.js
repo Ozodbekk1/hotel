@@ -38,9 +38,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$ozodbek$2f$hotel$
 const buttonVariants = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$ozodbek$2f$hotel$2f$node_modules$2f$class$2d$variance$2d$authority$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cva"])("group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4", {
     variants: {
         variant: {
-            default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-            outline: "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-            secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+            default: "btn-primary text-primary-foreground hover:brightness-[1.03] active:brightness-[0.98]",
+            outline: "border-border bg-background hover:bg-muted hover:text-foreground hover:border-primary/35 aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+            secondary: "btn-secondary text-secondary-foreground hover:brightness-[1.02] active:brightness-[0.99] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
             ghost: "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
             destructive: "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
             link: "text-primary underline-offset-4 hover:underline"
@@ -72,7 +72,7 @@ function Button({ className, variant = "default", size = "default", ...props }) 
         ...props
     }, void 0, false, {
         fileName: "[project]/Desktop/ozodbek/hotel/src/components/ui/button.tsx",
-        lineNumber: 52,
+        lineNumber: 53,
         columnNumber: 5
     }, this);
 }

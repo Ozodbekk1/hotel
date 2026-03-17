@@ -12,10 +12,10 @@ const footerLinks: Array<{ label: string; href: string }> = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t">
+    <footer className="relative border-t bg-muted/15 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-primary/45 before:to-transparent">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-3">
         <div className="space-y-2">
-          <div className="text-sm font-semibold tracking-tight">
+          <div className="text-sm font-semibold tracking-tight text-brand">
             Hotel Collection
           </div>
           <p className="text-sm text-muted-foreground">
@@ -50,4 +50,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-

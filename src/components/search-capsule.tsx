@@ -28,6 +28,7 @@ export function SearchCapsule({
   className?: string;
   variant?: "default" | "hero";
 }) {
+  const isHero = variant === "hero";
   const [destination, setDestination] = React.useState("");
   const [range, setRange] = React.useState<DateRange>({});
   const [guests, setGuests] = React.useState("2");
@@ -43,15 +44,20 @@ export function SearchCapsule({
   return (
     <div
       className={cn(
-        "w-full rounded-3xl border p-3 shadow-sm backdrop-blur supports-backdrop-filter:bg-background/60 sm:p-4",
-        variant === "hero"
-          ? "glass bg-card/40 shadow-black/10"
+        "w-full rounded-3xl border p-3 backdrop-blur supports-backdrop-filter:bg-background/60 sm:p-4",
+        isHero
+          ? "border-white/10 bg-black/20 shadow-none text-white"
           : "bg-card/60 glass",
         className
       )}
     >
       <form
-        className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 lg:items-center"
+        className={cn(
+          "grid w-full grid-cols-1 gap-3",
+          isHero
+            ? "sm:grid-cols-2"
+            : "sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 lg:items-center"
+        )}
         onSubmit={(e) => {
           e.preventDefault();
           toast("Search submitted", {
@@ -61,7 +67,11 @@ export function SearchCapsule({
           });
         }}
       >
-        <div className="sm:col-span-2 md:col-span-4 lg:col-span-3">
+        <div
+          className={cn(
+            isHero ? "sm:col-span-2" : "sm:col-span-2 md:col-span-4 lg:col-span-3"
+          )}
+        >
           <label className="sr-only" htmlFor="destination">
             Destination
           </label>
@@ -70,33 +80,46 @@ export function SearchCapsule({
             placeholder="Search destination"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
-            className="h-12"
+            className={cn(
+              "h-12",
+              isHero &&
+                "border-white/15 bg-white/10 text-white placeholder:text-white/60 focus-visible:border-white/30 focus-visible:ring-white/20"
+            )}
           />
         </div>
 
-        <div className="sm:col-span-2 md:col-span-4 lg:col-span-3">
+        <div
+          className={cn(
+            isHero ? "sm:col-span-2" : "sm:col-span-2 md:col-span-4 lg:col-span-3"
+          )}
+        >
           <Popover>
             <PopoverTrigger
               className={cn(
                 buttonVariants({ variant: "outline" }),
-                "h-12 w-full justify-start text-left font-normal",
+                "h-12 w-full min-w-0 justify-start text-left font-normal",
                 !range.from && "text-muted-foreground",
+                isHero &&
+                  "border-white/15 bg-white/10 text-white hover:bg-white/15 hover:text-white focus-visible:border-white/30 focus-visible:ring-white/20"
               )}
             >
               <CalendarIcon className="mr-2 size-4" />
-              {label}
+              <span className="truncate">{label}</span>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent
+              className="w-[calc(100vw-2rem)] max-w-sm p-0 max-h-[70dvh] overflow-auto sm:w-auto sm:max-w-none sm:max-h-none"
+              align="start"
+            >
               <Calendar
                 mode="range"
-                numberOfMonths={1}
+                numberOfMonths={2}
                 className="hidden sm:block"
                 selected={{ from: range.from, to: range.to }}
                 onSelect={(r) => setRange({ from: r?.from, to: r?.to })}
               />
               <Calendar
                 mode="range"
-                numberOfMonths={2}
+                numberOfMonths={1}
                 className="block sm:hidden"
                 selected={{ from: range.from, to: range.to }}
                 onSelect={(r) => setRange({ from: r?.from, to: r?.to })}
@@ -105,12 +128,22 @@ export function SearchCapsule({
           </Popover>
         </div>
 
-        <div className="sm:col-span-1 md:col-span-2 lg:col-span-2">
+        <div
+          className={cn(
+            isHero ? "sm:col-span-1" : "sm:col-span-1 md:col-span-2 lg:col-span-2"
+          )}
+        >
           <Select
             value={guests}
             onValueChange={(v) => setGuests(v ?? "2")}
           >
-            <SelectTrigger className="h-12 w-full">
+            <SelectTrigger
+              className={cn(
+                "h-12 w-full",
+                isHero &&
+                  "border-white/15 bg-white/10 text-white focus:border-white/30 focus:ring-white/20"
+              )}
+            >
               <SelectValue placeholder="Guests" />
             </SelectTrigger>
             <SelectContent>
@@ -123,7 +156,11 @@ export function SearchCapsule({
           </Select>
         </div>
 
-        <div className="sm:col-span-1 md:col-span-2 lg:col-span-2">
+        <div
+          className={cn(
+            isHero ? "sm:col-span-1" : "sm:col-span-1 md:col-span-2 lg:col-span-2"
+          )}
+        >
           <label className="sr-only" htmlFor="promo">
             Promo code
           </label>
@@ -132,11 +169,19 @@ export function SearchCapsule({
             placeholder="Promo code"
             value={promo}
             onChange={(e) => setPromo(e.target.value)}
-            className="h-12"
+            className={cn(
+              "h-12",
+              isHero &&
+                "border-white/15 bg-white/10 text-white placeholder:text-white/60 focus-visible:border-white/30 focus-visible:ring-white/20"
+            )}
           />
         </div>
 
-        <div className="sm:col-span-2 md:col-span-4 lg:col-span-2">
+        <div
+          className={cn(
+            isHero ? "sm:col-span-2" : "sm:col-span-2 md:col-span-4 lg:col-span-2"
+          )}
+        >
           <ButtonLink
             className="h-12 w-full"
             href={{
@@ -157,4 +202,3 @@ export function SearchCapsule({
     </div>
   );
 }
-

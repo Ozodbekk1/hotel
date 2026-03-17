@@ -133,7 +133,7 @@ function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[320px] p-0">
         <div className="p-4">
-          <Link href="/" className="font-semibold tracking-tight">
+          <Link href="/" className="font-semibold tracking-tight text-brand">
             Hotel Collection
           </Link>
         </div>
@@ -210,13 +210,13 @@ export async function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60 relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-linear-to-r after:from-transparent after:via-primary/55 after:to-transparent">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
         <div className="flex items-center gap-2 md:hidden">
           <MobileNav />
         </div>
 
-        <Link href="/" className="font-semibold tracking-tight">
+        <Link href="/" className="font-semibold tracking-tight text-brand">
           Hotel Collection
         </Link>
 
@@ -277,4 +277,3 @@ export async function SiteHeader() {
     </header>
   );
 }
-
